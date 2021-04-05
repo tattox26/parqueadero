@@ -11,5 +11,8 @@ class HourDetails extends Model
         'fecha_apertura_hor', 'fecha_cierre_hor','dia_hor','estado_hor'
     ];
 
+    public function rate() {
+		return $this->hasOne(Rates::class,'rate_id');
+	}
     
 }

@@ -23,4 +23,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('quoat', 'QuotaController@getQuoat')->name('quoat');
 Route::post('payment', 'QuotaController@payment')->name('payment');
 Route::post('price', 'QuotaController@price')->name('price');
+Route::post('finish', 'QuotaController@finish')->name('finish');
+
 

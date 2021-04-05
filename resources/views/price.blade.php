@@ -14,21 +14,33 @@
                                     <span id="Horas">00</span>
                                     <span  id="Minutos">:00</span>
                                     <span id="Segundos">:00</span>
+                                    <span id="Centesimas">:00</span>
                                 </h1>
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btn btn-lg btn-success" value="Pagar">
+                            <input type="submit" onclick="parar()" class="btn btn-lg btn-success" value="Pagar">
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label><h1>Minuto:</h1></label>
+                            <label><h1>Minuto: $<span id="precio">{{ $precio }}</span> </h1></label>
                         </div>
                         <div class="form-group">
-                            <label><h1>Hora:</h1></label>
+                            <label><h1>Hora: ${{ $precio*60 }}</h1></label>
                         </div>
-                    </div>        
+                    </div>   
+                    
+                    <div class="col-md-10 offset-2" id="total">
+                        <div class="form-group" >
+                            <label><h1>Total a pagar: $<span id="totalPago"><span> </h1></label><br>
+                            <form method="post" action="{{ route('finish') }}"> 
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}" /> 
+                                <input type="hidden" name="priceFinish" id="priceFinish"/>
+                                <input type="submit" class="btn btn-lg btn-success" value="Finalizar">
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 </div>
             </div>
@@ -37,104 +49,90 @@
 </div>
 
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    //create variables for each time entity
-var centesimas = 0; //hundreds
-var segundos = 0; //seconds
-var minutos = 0; // minutes
-var horas = 0; //hours
+   $( document ).ready(function() {
+        $("#total").css("display","none");
+        var centesimas = 0; 
+        var segundos = 0; 
+        var minutos = 0; 
+        var horas = 0; 
+        control = setInterval(cronometro,10); 
+        
 
-//function that makes the timer start to run when the click at the "start" button
-function inicio () {
-	control = setInterval(cronometro,10); //it runs the "cronometro" function and set the time interval to change the time displayed every 1/10 of second
-  
-  //after starting the timer, do not allow the "start" and "resume" button to be clicked
-	document.getElementById("inicio").disabled = true;
-	document.getElementById("parar").disabled = false;
-	document.getElementById("continuar").disabled = true;
-	document.getElementById("reinicio").disabled = false;
-}
+        
+        function reinicio () {
+            clearInterval(control);
+            centesimas = 0;
+            segundos = 0;
+            minutos = 0;
+            horas = 0;
+            Centesimas.innerHTML = ":00";
+            Segundos.innerHTML = ":00";
+            Minutos.innerHTML = ":00";
+            Horas.innerHTML = "00";
+            document.getElementById("inicio").disabled = false;
+            document.getElementById("parar").disabled = true;
+            document.getElementById("continuar").disabled = true;
+            document.getElementById("reinicio").disabled = true;
+        }
+        function cronometro () {
+        
+            if (centesimas < 99) {
+                centesimas++;
+                if (centesimas < 10) { centesimas = "0"+centesimas }
+                Centesimas.innerHTML = ":"+centesimas;
+            }
+        
+            if (centesimas == 99) {
+                centesimas = -1
+            }
+            if (centesimas == 0) {
+                segundos ++;
+        
+                if (segundos < 10) { segundos = "0"+segundos }
+                Segundos.innerHTML = ":"+segundos;
+            }
+        
+            if (segundos == 59) {
+                segundos = -1;
+            }
+        
+            if ( (centesimas == 0)&&(segundos == 0) ) {
+                minutos++;
+            
+                if (minutos < 10) { minutos = "0"+minutos }
+                Minutos.innerHTML = ":"+minutos;
+            }
+            if (minutos == 59) {
+                minutos = -1;
+            }
+            if ( (centesimas == 0)&&(segundos == 0)&&(minutos == 0) ) {
+                horas ++;
+                if (horas < 10) { horas = "0"+horas }
+                Horas.innerHTML = horas;
+            }
+        }
+    });
 
-//function that runs when the "stop" button is clicked;
-function parar () {
-  
-  //method to make the time stop
-	clearInterval(control);
-  
-  //it disables the "stop" button, and allow us to click at the "resume" button
-	document.getElementById("parar").disabled = true;
-	document.getElementById("continuar").disabled = false;
-}
+    function parar() {
+            clearInterval(control);
+            
+            var minutos = $("#Minutos").text();
+            var precio = $("#precio").text();
+            if(minutos == ":00"){
+                console.log(0);
+                $("#totalPago").text(0);
+                $("#priceFinish").val(0);
+            }else{
+                console.log(2);
+                minutos = minutos.replace(':', '');
+                total = parseInt(minutos)*parseInt(precio);
+                $("#totalPago").text(total);
+                $("#priceFinish").val(total);
+            }            
+            $("#total").css("display","block"); 
+        }
 
-//function that happen when we click at the "reset" button
-function reinicio () {
-  
-  //method to make the time stop
-	clearInterval(control);
-  
-  //it reset all the time variables to 0
-	centesimas = 0;
-	segundos = 0;
-	minutos = 0;
-	horas = 0;
-  
-  //the time values showed at the page are set
-	Centesimas.innerHTML = ":00";
-	Segundos.innerHTML = ":00";
-	Minutos.innerHTML = ":00";
-	Horas.innerHTML = "00";
-  
-  //it gives the disabled button status
-	document.getElementById("inicio").disabled = false;
-	document.getElementById("parar").disabled = true;
-	document.getElementById("continuar").disabled = true;
-	document.getElementById("reinicio").disabled = true;
-}
-
-//this is the main function, it manages the cronometer running functionality
-function cronometro () {
-  
-//define the maximum number for the hundreds  
-	if (centesimas < 99) {
-		centesimas++;
-  
-//adds a 0 before the hundreds when it is between 1 and 9
-		if (centesimas < 10) { centesimas = "0"+centesimas }
-		Centesimas.innerHTML = ":"+centesimas;
-	}
-  
-//when the hundreds arrives at 99 it is reset to 0 and the "second" value is increased in 1
-	if (centesimas == 99) {
-		centesimas = -1
-	}
-	if (centesimas == 0) {
-		segundos ++;
-    
-  // adds a 0 before the "seconds" value, if it is between 0 and 9
-		if (segundos < 10) { segundos = "0"+segundos }
-		Segundos.innerHTML = ":"+segundos;
-	}
-  
-  //every time the "seconds" value arrives in 59, reset it to 0
-	if (segundos == 59) {
-		segundos = -1;
-	}
-  
-  //every time the seconds and hundreds of second value arrives are equal to 0, add 1 to the minutes value
-	if ( (centesimas == 0)&&(segundos == 0) ) {
-		minutos++;
-    
-//add a 0 before the minutes value if it is between 0 and 9
-		if (minutos < 10) { minutos = "0"+minutos }
-		Minutos.innerHTML = ":"+minutos;
-	}
-	if (minutos == 59) {
-		minutos = -1;
-	}
-	if ( (centesimas == 0)&&(segundos == 0)&&(minutos == 0) ) {
-		horas ++;
-		if (horas < 10) { horas = "0"+horas }
-		Horas.innerHTML = horas;
-	}
-}
 </script>
