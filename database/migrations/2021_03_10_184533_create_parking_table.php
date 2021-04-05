@@ -13,11 +13,12 @@ class CreateParkingTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('parkings');
         Schema::create('parkings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre_par');
             $table->string('direccion_par');
-            $table->string('capacidad_par');
+            $table->integer('capacidad_par');
             $table->string('ruta_par');
             $table->timestamps();
         });

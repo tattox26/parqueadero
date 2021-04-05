@@ -13,6 +13,7 @@ class CreateRateTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('rates');
         Schema::create('rates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('precio_tar');

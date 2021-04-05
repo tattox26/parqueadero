@@ -13,6 +13,7 @@ class CreateDocumentTypeTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('document_types');
         Schema::create('document_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre_doc');

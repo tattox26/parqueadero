@@ -13,17 +13,19 @@ class CreateParkingDetailTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('parking_details');
         Schema::create('parking_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quota_id')->unsigned();
-            $table->string('piso_det');
-            $table->string('espacio_det');
+            $table->integer('parking_id')->unsigned();
+            $table->integer('piso_det')->unique();
+            $table->integer('espacio_det');
             $table->string('estado_det');
             $table->timestamps();
         });
 
+        
         Schema::table('parking_details', function($table) {
-            $table->foreign('quota_id')->references('id')->on('quotas');
+            $table->foreign('parking_id')->references('id')->on('parkings');
         });
     }
 

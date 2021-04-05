@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\{Parkings,ParkingDetails};
 class HomeController extends Controller
 {
     /**
@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $parkings = Parkings::with('parkingDetail')->get();        
+        return view('home',['parkings' => $parkings]) ;
     }
 }

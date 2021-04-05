@@ -13,6 +13,7 @@ class CreateQuotaTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('quotas');
         Schema::create('quotas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parking_detail_id')->unsigned();

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,10 +64,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $personData = [ 
+            'document_type_id' => 1,
             'name' => $data['name'],
+            'nombre_doc' => $data['name'],
+            'numero_doc_user' => 110101010,
+            'apellido_user' => "asdsad",
+            'fecha_nacimiento_user' => "02-13-1991",
+            'corre_user' => $data['email'],
+            'telefono_user' => '1212121',
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
+        ];
+        return User::create($personData);
+        // $person->documentType()->create($personData);
+        
     }
 }

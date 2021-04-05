@@ -13,6 +13,7 @@ class CreateTargetTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('targets');
         Schema::create('targets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client_id')->unsigned();
@@ -22,7 +23,7 @@ class CreateTargetTable extends Migration
         });
 
         Schema::table('targets', function($table) {
-            $table->foreign('user_id')->references('id')->on('clients');
+            $table->foreign('client_id')->references('id')->on('clients');
         });
     }
 
