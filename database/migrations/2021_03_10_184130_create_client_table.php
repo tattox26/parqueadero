@@ -18,6 +18,7 @@ class CreateClientTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('payment_type_id')->unsigned();
+            $table->string('placa');
             $table->timestamps();
         });
 

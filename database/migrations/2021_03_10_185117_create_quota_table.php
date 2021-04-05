@@ -19,7 +19,7 @@ class CreateQuotaTable extends Migration
             $table->integer('parking_detail_id')->unsigned();
             $table->integer('client_id')->unsigned();
             $table->integer('employee_id')->unsigned();
-            $table->string('fecha_entrada_cup');
+            $table->dateTime('fecha_entrada_cup');
             $table->timestamps();
         });
 

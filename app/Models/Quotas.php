@@ -18,8 +18,8 @@ class Quotas extends Model
     public function client() {
 		return $this->hasOne(Client::class,'client_id');
 	}
-    
+
     public function employee() {
-		return $this->hasOne(Client::class,'employee_id ');
+		return $this->hasOne(Client::class,'employee_id');
 	}
 }

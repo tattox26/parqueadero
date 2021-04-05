@@ -19,6 +19,8 @@ class CreateParkingDetailTable extends Migration
             $table->integer('parking_id')->unsigned();
             $table->integer('piso_det')->unique();
             $table->integer('espacio_det');
+            $table->integer('ocupado_det');
+            $table->integer('total_det');
             $table->string('estado_det');
             $table->timestamps();
         });
