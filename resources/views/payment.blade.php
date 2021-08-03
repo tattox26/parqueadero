@@ -76,7 +76,6 @@
                         <input type="hidden" name="placa" value="{{ $placa }}" />
                         <input type="hidden" name="tipo" value="{{ $tipo }}" />
                         <input type="hidden" name="parking_id" value="{{ $parking_id }}" />
-                        <input type="hidden" name="piso" value="{{ $piso }}" />
                         <input type="hidden" name="identificacion" value="{{ $identificacion }}" />
                         
                         <div class="form-group">

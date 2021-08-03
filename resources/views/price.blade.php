@@ -37,6 +37,7 @@
                             <form method="post" action="{{ route('finish') }}"> 
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" /> 
                                 <input type="hidden" name="priceFinish" id="priceFinish"/>
+                                <input type="hidden" name="parkingDetails" id="parkingDetails" value="{{ $parkingDetails }}" />
                                 <input type="submit" class="btn btn-lg btn-success" value="Finalizar">
                             </form>
                         </div>
@@ -59,8 +60,6 @@
         var minutos = 0; 
         var horas = 0; 
         control = setInterval(cronometro,10); 
-        
-
         
         function reinicio () {
             clearInterval(control);

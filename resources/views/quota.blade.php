@@ -12,11 +12,11 @@
                             <div class="card-body">   
                             @for($i=0;$i<$parkingDetail->total_det;$i++)
                                 @if($i<$parkingDetail->espacio_det  )
-                                    <button type="button" onclick="parqueadero('{{$parkingDetail->piso_det}}')" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                                    <button type="button" onclick="parqueadero('{{$parkingDetail->id}}')" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
                                     disponible
                                     </button>
                                 @else
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" disabled>
                                     ocupado
                                     </button>
                                 @endif 
@@ -38,8 +38,7 @@
         <div class="modal-content">
             <form method="post" action="{{ route('payment') }}"> 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                <input type="hidden" name="parking_id" value="{{ $parking_id }}" />
-                <input type="hidden" name="piso" id="piso"/>
+                <input type="hidden" name="parking_id" id="parking_id"/>
                 
                 <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Registrar</h5>
@@ -76,7 +75,8 @@
 
 @endsection
 <script>
-    function parqueadero(piso){
-        document.getElementById('piso').value =piso
+    function parqueadero(parking_id){
+        document.getElementById('parking_id').value =parking_id
+        
     }
 </script>
